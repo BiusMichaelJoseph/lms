@@ -18,6 +18,10 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', require('./routes/auth'));
 
+// Course routes
+app.use('/api/courses', require('./routes/course'));
+
+
 
 const PORT = process.env.PORT || 5000;
 
