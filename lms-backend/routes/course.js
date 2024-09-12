@@ -1,7 +1,35 @@
-const express = require('express');
-const { createCourse, enrollStudent, getCourseById, getAllCourses } = require('../controllers/courseController');
+
 const auth = require('../middlewares/auth');
 const router = express.Router();
+const express = require('express');
+const { createCourse, updateCourse, deleteCourse, getAllCourses, getCourseById, enrollCourse } = require('../controllers/courseController');
+const role = require('../middlewares/role');
+const createClassroomUrl = (courseName) => {
+  const baseUrl = 'https://meet.jit.si/';
+  return `${baseUrl}${courseName}-${Date.now()}`;
+};
+
+router.post('/:courseId/schedule', auth, role(['teacher']), async (req, res) => {
+  const { courseId } = req.params;
+  const { date, time } = req.body;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).json({ msg: 'Course not found' });
+
+    const classroomUrl = createClassroomUrl(course.name);
+    course.classroomUrl = classroomUrl;
+    course.classDate = date;
+    course.classTime = time;
+    await course.save();
+
+    res.json({ classroomUrl, date, time });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 
 // @route  POST /api/courses
 // @desc   Create a course (only for teachers)
@@ -76,8 +104,20 @@ router.put('/:courseId', auth);
 // Delete a course
 router.delete('/:courseId', auth);
 
-// Get all courses with pagination and search
-router.get('/', getAllCourses);
+// Create a course (only for teachers)
+router.post('/', auth, role(['teacher']), createCourse);
+
+// Update a course (only for teachers)
+router.put('/:courseId', auth, role(['teacher']), updateCourse);
+
+// Delete a course (only for teachers)
+router.delete('/:courseId', auth, role(['teacher']), deleteCourse);
+
+// Get all courses (accessible by all roles)
+router.get('/', auth, getAllCourses);
+
+// Enroll in a course (only for students)
+router.post('/:courseId/enroll', auth, role(['student']), enrollCourse);
 
 
 module.exports = router;

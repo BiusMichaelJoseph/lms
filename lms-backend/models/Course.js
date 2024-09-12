@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const courseSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
+  classroomUrl: { type: String },
   teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },  // Reference to User (teacher)
   students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],  // Students enrolled in the course
   content: [
