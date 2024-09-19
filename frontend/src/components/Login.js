@@ -1,87 +1,81 @@
-import React, { useState, useContext } from 'react';
-import { TextField, Button, Typography, Container, makeStyles } from '@material-ui/core';
-import { AuthContext } from '../context/AuthContext';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import './Login.css'; 
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+function Login(){
+  const [showModal, setShowModal] = useState(false);
 
-const Login = () => {
-  const classes = useStyles();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useContext(AuthContext);
-  const history = useHistory();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await login(email, password);
-      history.push('/dashboard');
-    } catch (error) {
-      console.error('Login failed:', error);
-      // Handle login error (e.g., show error message)
-    }
+  const handleOpenModal = () => {
+    setShowModal(true);
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  
+
   return (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
+    <div>
+      <button onClick={handleOpenModal}>Login</button>
+
+      {showModal && (
+        <div className="modal">
+          <span
+            className="close"
+            onClick={handleCloseModal}
+            title="Close Modal"
           >
-            Sign In
-          </Button>
-        </form>
-      </div>
-    </Container>
+            &times;
+          </span>
+
+          <form className="modal-content animate">
+            <div className="imgcontainer">
+              <img src="img_avatar2.png" alt="Avatar" className="avatar" />
+            </div>
+
+            <div className="container">
+              <label htmlFor="uname"><b>Username</b></label>
+              <input
+                type="text"
+                placeholder="Enter Username"
+                name="uname"
+                required
+              />
+
+              <label htmlFor="psw"><b>Password</b></label>
+              <input
+                type="password"
+                placeholder="Enter Password"
+                name="psw"
+                required
+              />
+
+              <button type="submit">Login</button>
+              <label>
+                <input
+                  type="checkbox"
+                  defaultChecked={true}
+                  name="remember"
+                />{' '}
+                Remember me
+              </label>
+            </div>
+
+            <div className="container" style={{ backgroundColor: '#f1f1f1' }}>
+              <button
+                type="button"
+                onClick={handleCloseModal}
+                className="cancelbtn"
+              >
+                Cancel
+              </button>
+              <span className="psw">
+                Forgot <a href="#">password?</a>
+              </span>
+            </div>
+          </form>
+        </div>
+      )}
+    </div>
   );
 };
 
