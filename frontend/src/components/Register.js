@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import './Register.css'; 
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import axios from 'axios';
+import Login from './Login';
 
-import './Login.css'; 
-
-function Login(){
+const Register = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -12,22 +14,26 @@ function Login(){
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
   const handleSubmit = (e) => {
-    e.preventDefault();
-    
+    e.preventDefault(); 
     const formData = {
       username: e.target.uname.value,
+      email: e.target.email.value,
       password: e.target.psw.value,
+      repeatPassword: e.target.psw_repeat.value,
     };
-  
-    console.log('Form submitted:', formData);
+    console.log('Registration form submitted:', formData);
   };
-  
 
   return (
     <div>
-    <h1>New here?</h1>
-      <button onClick={handleOpenModal}>Login</button>
+      <h1>HELLO AND WELCOME TO CODE-JOY</h1>
+      <h2><p>Please fill in this form to create a parent account.</p>
+      <p>By creating an account, you agree to our <a href="#">Terms & Privacy</a>.</p>
+      <p>If you are a student, kindly be sure to register on the <a href='#'>student page</a></p>
+      </h2>
+      <button className='button' onClick={handleOpenModal}>Register</button>
 
       {showModal && (
         <div className="modal">
@@ -53,6 +59,14 @@ function Login(){
                 required
               />
 
+              <label htmlFor="email"><b>Email</b></label>
+              <input
+                type="email"
+                placeholder="Enter Email"
+                name="email"
+                required
+              />
+
               <label htmlFor="psw"><b>Password</b></label>
               <input
                 type="password"
@@ -61,7 +75,15 @@ function Login(){
                 required
               />
 
-              <button type="submit">Login</button>
+              <label htmlFor="psw_repeat"><b>Repeat Password</b></label>
+              <input
+                type="password"
+                placeholder="Repeat Password"
+                name="psw_repeat"
+                required
+              />
+
+              <button className='button' type="submit">Register</button>
               <label>
                 <input
                   type="checkbox"
@@ -81,7 +103,7 @@ function Login(){
                 Cancel
               </button>
               <span className="psw">
-                Forgot <a href="#">password?</a>
+                Already have an account? <a href="#">Login here</a>
               </span>
             </div>
           </form>
@@ -91,4 +113,4 @@ function Login(){
   );
 };
 
-export default Login;
+export default Register;

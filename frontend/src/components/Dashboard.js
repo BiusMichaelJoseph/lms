@@ -1,64 +1,136 @@
-import React from 'react';
-import { Book, Users, Calendar, Settings } from 'lucide-react';
+import React, { useState } from 'react';
+import { Calendar, BarChart2, BookOpen, Monitor, LogOut } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import './dashboard.css';
 
-const Dashboard = () => {
+const activityData = [
+  { name: 'Jan', value1: 40, value2: 24 },
+  { name: 'Feb', value1: 30, value2: 13 },
+  { name: 'Mar', value1: 20, value2: 98 },
+  { name: 'Apr', value1: 27, value2: 39 },
+  { name: 'May', value1: 18, value2: 48 },
+  { name: 'Jun', value1: 23, value2: 38 },
+  { name: 'Jul', value1: 34, value2: 43 },
+  { name: 'Aug', value1: 34, value2: 77 },
+  { name: 'Sep', value1: 34, value2: 43 },
+  { name: 'Oct', value1: 34, value2: 77 },
+  { name: 'Nov', value1: 34, value2: 43 },
+  { name: 'Dec', value1: 34, value2: 77 },
+];
+
+const LMSDashboard = () => {
+  const [activeTab, setActiveTab] = useState('dashboard');
+
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="dashboard-container">
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md">
-        <div className="p-4">
-          <h1 className="text-2xl font-bold text-blue-600">LMS Dashboard</h1>
-        </div>
-        <nav className="mt-6">
-          <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">
-            <Book className="inline-block mr-2" size={20} />
-            Courses
-          </a>
-          <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">
-            <Users className="inline-block mr-2" size={20} />
-            Students
-          </a>
-          <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">
-            <Calendar className="inline-block mr-2" size={20} />
-            Schedule
-          </a>
-          <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">
-            <Settings className="inline-block mr-2" size={20} />
-            Settings
-          </a>
-        </nav>
-      </aside>
+      <div className="sidebar">
+        <div className="profile-icon"></div>
+        <button
+          className={`sidebar-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
+          onClick={() => setActiveTab('dashboard')}
+        >
+          <BarChart2 className="icon" />
+        </button>
+        <button
+          className={`sidebar-btn ${activeTab === 'calendar' ? 'active' : ''}`}
+          onClick={() => setActiveTab('calendar')}
+        >
+          <Calendar className="icon" />
+        </button>
+        <button
+          className={`sidebar-btn ${activeTab === 'courses' ? 'active' : ''}`}
+          onClick={() => setActiveTab('courses')}
+        >
+          <BookOpen className="icon" />
+        </button>
+        <button
+          className={`sidebar-btn ${activeTab === 'monitor' ? 'active' : ''}`}
+          onClick={() => setActiveTab('monitor')}
+        >
+          <Monitor className="icon" />
+        </button>
+        <button className="sidebar-btn">
+          <LogOut className="icon" />
+        </button>
+      </div>
 
-      {/* Main Content */}
-      <main className="flex-1 p-8">
-        <header className="bg-white shadow-sm mb-8 p-4 rounded-lg">
-          <h2 className="text-2xl font-semibold text-gray-800">Welcome to Your LMS Dashboard</h2>
-        </header>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold mb-2">Recent Courses</h3>
-            <ul className="list-disc list-inside">
-              <li>Introduction to React</li>
-              <li>Advanced CSS Techniques</li>
-              <li>Web Development Fundamentals</li>
-            </ul>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold mb-2">Upcoming Assignments</h3>
-            <ul className="list-disc list-inside">
-              <li>React Project Due: Sept 25</li>
-              <li>CSS Layout Challenge: Oct 2</li>
-              <li>JavaScript Quiz: Oct 10</li>
-            </ul>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold mb-2">Latest Announcements</h3>
-            <p>New course on "Mobile App Development" starting next month. Enroll now!</p>
-          </div>
+      {/* Main content */}
+      <div className="main-content">
+        <div className="header">
+          <h1 className="header-title">Dashboard</h1>
+          <input type="text" placeholder="Search..." className="search-input" />
         </div>
-      </main>
+
+        {/* Banner */}
+        <div className="banner">
+          <h2 className="banner-title">Good Morning Ghaum</h2>
+          <p>Check your daily task & Schedules</p>
+        </div>
+
+        {/* Activity Chart */}
+        <div className="chart-container">
+          <h3 className="section-title">Activities</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={activityData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="value1" fill="#8884d8" />
+              <Bar dataKey="value2" fill="#82ca9d" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Today's Tasks */}
+        <div className="task-container">
+          <h3 className="section-title">Today's Tasks</h3>
+          <table className="task-table">
+            <thead>
+              <tr>
+                <th>Department</th>
+                <th>Stage</th>
+                <th>Assigned</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Development</td>
+                <td>Design</td>
+                <td>John Doe</td>
+                <td>2024-09-23</td>
+                <td><span className="status-active">Active</span></td>
+              </tr>
+              {/* Add more rows as needed */}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Right sidebar */}
+      <div className="right-sidebar">
+        <div className="right-sidebar-section">
+          <h3 className="right-sidebar-title">September 2024</h3>
+          {/* Add a calendar component here */}
+        </div>
+        <div className="right-sidebar-section">
+          <h4 className="right-sidebar-subtitle">Open Projects</h4>
+          <p className="right-sidebar-value">500</p>
+        </div>
+        <div className="right-sidebar-section">
+          <h4 className="right-sidebar-subtitle">Automatically Generated</h4>
+          <p className="right-sidebar-value">3502</p>
+        </div>
+        <div className="right-sidebar-section">
+          <h4 className="right-sidebar-subtitle">Earned this month</h4>
+          <p className="right-sidebar-value">$15000</p>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default LMSDashboard;
