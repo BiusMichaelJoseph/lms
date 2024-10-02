@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, BarChart2, BookOpen, Monitor, LogOut } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import './dashboard.css';
 
 const activityData = [
   { name: 'Jan', value1: 40, value2: 24 },
@@ -22,55 +21,43 @@ const LMSDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   return (
-    <div className="dashboard-container">
+    <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="sidebar">
-        <div className="profile-icon"></div>
-        <button
-          className={`sidebar-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
-          onClick={() => setActiveTab('dashboard')}
-        >
-          <BarChart2 className="icon" />
+      <div className="w-16 bg-blue-900 flex flex-col items-center py-4">
+        <div className="w-10 h-10 bg-white rounded-full mb-8"></div>
+        <button className={`mb-4 p-2 rounded ${activeTab === 'dashboard' ? 'bg-blue-800' : ''}`} onClick={() => setActiveTab('dashboard')}>
+          <BarChart2 className="text-white" />
         </button>
-        <button
-          className={`sidebar-btn ${activeTab === 'calendar' ? 'active' : ''}`}
-          onClick={() => setActiveTab('calendar')}
-        >
-          <Calendar className="icon" />
+        <button className={`mb-4 p-2 rounded ${activeTab === 'calendar' ? 'bg-blue-800' : ''}`} onClick={() => setActiveTab('calendar')}>
+          <Calendar className="text-white" />
         </button>
-        <button
-          className={`sidebar-btn ${activeTab === 'courses' ? 'active' : ''}`}
-          onClick={() => setActiveTab('courses')}
-        >
-          <BookOpen className="icon" />
+        <button className={`mb-4 p-2 rounded ${activeTab === 'courses' ? 'bg-blue-800' : ''}`} onClick={() => setActiveTab('courses')}>
+          <BookOpen className="text-white" />
         </button>
-        <button
-          className={`sidebar-btn ${activeTab === 'monitor' ? 'active' : ''}`}
-          onClick={() => setActiveTab('monitor')}
-        >
-          <Monitor className="icon" />
+        <button className={`mb-4 p-2 rounded ${activeTab === 'monitor' ? 'bg-blue-800' : ''}`} onClick={() => setActiveTab('monitor')}>
+          <Monitor className="text-white" />
         </button>
-        <button className="sidebar-btn">
-          <LogOut className="icon" />
+        <button className="mt-auto p-2 rounded">
+          <LogOut className="text-white" />
         </button>
       </div>
 
       {/* Main content */}
-      <div className="main-content">
-        <div className="header">
-          <h1 className="header-title">Dashboard</h1>
-          <input type="text" placeholder="Search..." className="search-input" />
+      <div className="flex-1 p-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <input type="text" placeholder="Search..." className="p-2 border rounded" />
         </div>
 
         {/* Banner */}
-        <div className="banner">
-          <h2 className="banner-title">Good Morning Ghaum</h2>
+        <div className="bg-blue-900 text-white p-6 rounded-lg mb-8">
+          <h2 className="text-xl mb-2">Good Morning Ghaum</h2>
           <p>Check your daily task & Schedules</p>
         </div>
 
         {/* Activity Chart */}
-        <div className="chart-container">
-          <h3 className="section-title">Activities</h3>
+        <div className="bg-white p-6 rounded-lg shadow mb-8">
+          <h3 className="text-lg font-semibold mb-4">Activities</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={activityData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -84,16 +71,16 @@ const LMSDashboard = () => {
         </div>
 
         {/* Today's Tasks */}
-        <div className="task-container">
-          <h3 className="section-title">Today's Tasks</h3>
-          <table className="task-table">
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h3 className="text-lg font-semibold mb-4">Today's Tasks</h3>
+          <table className="w-full">
             <thead>
               <tr>
-                <th>Department</th>
-                <th>Stage</th>
-                <th>Assigned</th>
-                <th>Date</th>
-                <th>Status</th>
+                <th className="text-left">Department</th>
+                <th className="text-left">Stage</th>
+                <th className="text-left">Assigned</th>
+                <th className="text-left">Date</th>
+                <th className="text-left">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -102,7 +89,7 @@ const LMSDashboard = () => {
                 <td>Design</td>
                 <td>John Doe</td>
                 <td>2024-09-23</td>
-                <td><span className="status-active">Active</span></td>
+                <td><span className="bg-green-200 text-green-800 py-1 px-2 rounded">Active</span></td>
               </tr>
               {/* Add more rows as needed */}
             </tbody>
@@ -111,22 +98,22 @@ const LMSDashboard = () => {
       </div>
 
       {/* Right sidebar */}
-      <div className="right-sidebar">
-        <div className="right-sidebar-section">
-          <h3 className="right-sidebar-title">September 2024</h3>
+      <div className="w-64 bg-white p-4">
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-2">September 2024</h3>
           {/* Add a calendar component here */}
         </div>
-        <div className="right-sidebar-section">
-          <h4 className="right-sidebar-subtitle">Open Projects</h4>
-          <p className="right-sidebar-value">500</p>
+        <div className="mb-4">
+          <h4 className="font-semibold mb-2">Open Projects</h4>
+          <p className="text-2xl font-bold">500</p>
         </div>
-        <div className="right-sidebar-section">
-          <h4 className="right-sidebar-subtitle">Automatically Generated</h4>
-          <p className="right-sidebar-value">3502</p>
+        <div className="mb-4">
+          <h4 className="font-semibold mb-2">Automatically Generated</h4>
+          <p className="text-2xl font-bold">3502</p>
         </div>
-        <div className="right-sidebar-section">
-          <h4 className="right-sidebar-subtitle">Earned this month</h4>
-          <p className="right-sidebar-value">$15000</p>
+        <div>
+          <h4 className="font-semibold mb-2">Earned this month</h4>
+          <p className="text-2xl font-bold">$15000</p>
         </div>
       </div>
     </div>

@@ -1,115 +1,163 @@
+// Register.js
 import React, { useState } from 'react';
-import './Register.css'; 
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import axios from 'axios';
-import Login from './Login';
+import { X, User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import './Register.css'; // Import the CSS file for styling
+import { Router } from '@material-ui/icons';
 
 const Register = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const formData = {
-      username: e.target.uname.value,
+      username: e.target.username.value,
       email: e.target.email.value,
-      password: e.target.psw.value,
-      repeatPassword: e.target.psw_repeat.value,
+      password: e.target.password.value,
+      repeatPassword: e.target.repeatPassword.value,
     };
     console.log('Registration form submitted:', formData);
+    // Send the data to your backend here
   };
 
   return (
-    <div>
-      <h1>HELLO AND WELCOME TO CODE-JOY</h1>
-      <h2><p>Please fill in this form to create a parent account.</p>
-      <p>By creating an account, you agree to our <a href="#">Terms & Privacy</a>.</p>
-      <p>If you are a student, kindly be sure to register on the <a href='#'>student page</a></p>
-      </h2>
-      <button className='button' onClick={handleOpenModal}>Register</button>
+    <Router>
+    <div className="register-container">
+      <div className="register-card">
+        <h1 className="register-title">Welcome to Code-Joy</h1>
+        <p className="register-info">
+          Please fill in this form to create a parent account. By creating an account, you agree to our <a href="#" className="terms-link">Terms & Privacy</a>.
+        </p>
+        <p className="register-info">
+          If you are a student, please register on the <a href="#" className="student-link">student page</a>.
+        </p>
+        <button
+          onClick={handleOpenModal}
+          className="register-button"
+        >
+          Register
+        </button>
 
-      {showModal && (
-        <div className="modal">
-          <span
-            className="close"
-            onClick={handleCloseModal}
-            title="Close Modal"
-          >
-            &times;
-          </span>
+        {showModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h2>Create Account</h2>
+                <button onClick={handleCloseModal} className="close-modal">
+                  <X size={24} />
+                </button>
+              </div>
 
-          <form className="modal-content animate" onSubmit={handleSubmit}>
-            <div className="imgcontainer">
-              <img src="img_avatar2.png" alt="Avatar" className="avatar" />
+              <form onSubmit={handleSubmit} className="modal-form">
+                <div className="input-group">
+                  <label htmlFor="username">Username</label>
+                  <div className="input-container">
+                    <User className="input-icon" size={20} />
+                    <input
+                      type="text"
+                      id="username"
+                      name="username"
+                      required
+                      className="input-field"
+                      placeholder="Enter Username"
+                    />
+                  </div>
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="email">Email</label>
+                  <div className="input-container">
+                    <Mail className="input-icon" size={20} />
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      className="input-field"
+                      placeholder="Enter Email"
+                    />
+                  </div>
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="password">Password</label>
+                  <div className="input-container">
+                    <Lock className="input-icon" size={20} />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      name="password"
+                      required
+                      className="input-field"
+                      placeholder="Enter Password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="toggle-password"
+                    >
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="repeatPassword">Repeat Password</label>
+                  <div className="input-container">
+                    <Lock className="input-icon" size={20} />
+                    <input
+                      type={showRepeatPassword ? "text" : "password"}
+                      id="repeatPassword"
+                      name="repeatPassword"
+                      required
+                      className="input-field"
+                      placeholder="Repeat Password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowRepeatPassword(!showRepeatPassword)}
+                      className="toggle-password"
+                    >
+                      {showRepeatPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="remember-me">
+                  <input
+                    type="checkbox"
+                    id="remember"
+                    name="remember"
+                    className="checkbox"
+                  />
+                  <label htmlFor="remember">Remember me</label>
+                </div>
+
+                <button
+                  type="submit"
+                  className="submit-button"
+                >
+                  Register
+                </button>
+              </form>
+
+              <div className="modal-footer">
+                <span>
+                  Already have an account?{' '}
+                  <Link to="/login" className="login-link">Login here</Link>
+                </span>
+              </div>
             </div>
-
-            <div className="container">
-              <label htmlFor="uname"><b>Username</b></label>
-              <input
-                type="text"
-                placeholder="Enter Username"
-                name="uname"
-                required
-              />
-
-              <label htmlFor="email"><b>Email</b></label>
-              <input
-                type="email"
-                placeholder="Enter Email"
-                name="email"
-                required
-              />
-
-              <label htmlFor="psw"><b>Password</b></label>
-              <input
-                type="password"
-                placeholder="Enter Password"
-                name="psw"
-                required
-              />
-
-              <label htmlFor="psw_repeat"><b>Repeat Password</b></label>
-              <input
-                type="password"
-                placeholder="Repeat Password"
-                name="psw_repeat"
-                required
-              />
-
-              <button className='button' type="submit">Register</button>
-              <label>
-                <input
-                  type="checkbox"
-                  defaultChecked={true}
-                  name="remember"
-                />{' '}
-                Remember me
-              </label>
-            </div>
-
-            <div className="container" style={{ backgroundColor: '#f1f1f1' }}>
-              <button
-                type="button"
-                onClick={handleCloseModal}
-                className="cancelbtn"
-              >
-                Cancel
-              </button>
-              <span className="psw">
-                Already have an account? <a href="#">Login here</a>
-              </span>
-            </div>
-          </form>
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
+    </Router>
   );
 };
 
