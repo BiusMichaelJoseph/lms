@@ -1,11 +1,32 @@
+// backend/models/Timetable.js
 const mongoose = require('mongoose');
 
-const timetableSchema = new mongoose.Schema({
-  teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
-  date: { type: Date, required: true },
-  startTime: { type: String, required: true },
-  endTime: { type: String, required: true }
+const TimetableSchema = new mongoose.Schema({
+  subject: {
+    type: String,
+    required: true,
+  },
+  teacher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  students: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
+  startTime: {
+    type: Date,
+    required: true,
+  },
+  endTime: {
+    type: Date,
+    required: true,
+  },
+  videoLink: {
+    type: String,  // Video conference link (e.g., Zoom or Google Meet)
+    required: true,
+  }
 });
 
-module.exports = mongoose.model('Timetable', timetableSchema);
+module.exports = mongoose.model('Timetable', TimetableSchema);
