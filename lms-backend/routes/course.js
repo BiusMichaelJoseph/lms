@@ -1,8 +1,7 @@
-
+const express = require('express');
 const auth = require('../middlewares/auth');
 const router = express.Router();
-const express = require('express');
-const { createCourse, updateCourse, deleteCourse, getAllCourses, getCourseById, enrollCourse } = require('../controllers/courseController');
+const { createCourse, updateCourse, deleteCourse, getAllCourses, getCourseById, enrollCourse, enrollStudent } = require('../controllers/courseController');
 const role = require('../middlewares/role');
 const createClassroomUrl = (courseName) => {
   const baseUrl = 'https://meet.jit.si/';

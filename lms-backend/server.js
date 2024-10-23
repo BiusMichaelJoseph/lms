@@ -7,12 +7,12 @@ const analyticsRoutes = require('./routes/analytics');
 const parentRoutes = require('./routes/parent');
 const discussionRoutes = require('./routes/discussion');
 
+const app = express();
+
 app.use(express.json());
 
 dotenv.config();
 connectDB();
-
-const app = express();
 
 // Middleware
 app.use(cors());
